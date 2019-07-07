@@ -22,38 +22,49 @@
                             </div>
                         @endif
                         <table class="table table-hover table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Nama Lengkap</th>
-                                    <th>No Telp</th>
-                                    <th>Alamat</th>
-                                    <th>Email</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($customers as $customer)
-                                <tr>
-                                    <td>{{ $customer->name }}</td>
-                                    <td>{{ $customer->phone }}</td>
-                                    <td>{{ str_limit($customer->address, 50) }}</td>
-                                    <td><a href="mailto:{{ $customer->email }}">{{ $customer->email }}</a></td>
-                                    <td>
-                                        <form action="{{ url('/customer/' . $customer->id) }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="_method" value="DELETE" class="form-control">
-                                            <a href="{{ url('/customer/' . $customer->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                            <button class="btn btn-danger btn-sm">Hapus</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td class="text-center" colspan="5">Tidak ada data</td>
-                                </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+    <thead>
+        <tr>
+            <th>Nama Lengkap</th>
+            <th>No Telp</th>
+            <th>Alamat</th>
+            <th>Email</th>
+            <th colspan="2">Aksi</th> <!-- MODIFIKASI INI DENGAN MENAMBAHKAN COLSPAN -->
+        </tr>
+    </thead>
+    <tbody>
+        @forelse($customers as $customer)
+        <tr>
+            <td>{{ $customer->name }}</td>
+            <td>{{ $customer->phone }}</td>
+            <td>{{ str_limit($customer->address, 50) }}</td>
+            <td><a href="mailto:{{ $customer->email }}">{{ $customer->email }}</a></td>
+            <td>
+                <form action="{{ url('/customer/' . $customer->id) }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="_method" value="DELETE" class="form-control">
+                    <a href="{{ url('/customer/' . $customer->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <button class="btn btn-danger btn-sm">Hapus</button>
+                </form>
+            </td>
+            
+            <!-- [... TAMBAHKAN FORM INI ...] -->
+            <!-- KARENA YANG DIBUTUHKAN METHOD POST MAKA KITA MEMASUKKANNYA KEDALAM FORM -->
+            <td>
+                <form action="{{ route('invoice.store') }}" method="post">
+                    @csrf
+                    <input type="hidden" name="customer_id" value="{{ $customer->id }}" class="form-control">
+                    <button class="btn btn-primary btn-sm">Buat Invoice</button>
+                </form>
+            </td>
+            <!-- [... TAMBAHKAN FORM INI ...] -->
+        </tr>
+        @empty
+        <tr>
+            <td class="text-center" colspan="5">Tidak ada data</td>
+        </tr>
+        @endforelse
+    </tbody>
+</table>
                         <div class="float-right">
                             {{ $customers->links() }}
                         </div>

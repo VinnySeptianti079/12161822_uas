@@ -35,3 +35,25 @@ Route::group(['prefix' => 'customer'], function() {
     Route::put('/{id}', 'CustomerController@update');
     Route::delete('/{id}', 'CustomerController@destroy');
 });
+
+Route::group(['prefix' => 'invoice'], function() {
+    //ROUTE UNTUK HALAMAN INVOICE
+    Route::get('/new', 'InvoiceController@create')->name('invoice.create');
+    //ROUTE UNTUK MENG-HANDLE DATA YANG DIKIRIM
+    Route::post('/', 'InvoiceController@save')->name('invoice.store');
+    Route::get('/{id}', 'InvoiceController@edit')->name('invoice.edit');
+    Route::put('/{id}', 'InvoiceController@update')->name('invoice.update');
+    Route::delete('/{id}', 'InvoiceController@deleteProduct')->name('invoice.delete_product');
+    Route::get('/', 'InvoiceController@index')->name('invoice.index');
+    Route::delete('/{id}/delete', 'InvoiceController@destroy')->name('invoice.destroy');
+    Route::get('/{id}/print', 'InvoiceController@generateInvoice')->name('invoice.print');
+ });
+
+ Route::group(['prefix' => 'agen'], function() {
+    Route::get('/', 'AgenController@index');
+    Route::get('/new', 'AgenController@create');
+    Route::post('/', 'AgenController@save');
+    Route::get('/{id}', 'AgenController@edit');
+    Route::put('/{id}', 'AgenController@update');
+    Route::delete('/{id}', 'AgenController@destroy');
+});
